@@ -1,1 +1,2 @@
-"# Chromatic Resurrection: Restoration of Black & White Images" 
+Chromatic Resurrection
+Deep Learning project that restores and colorizes black-and-white images using GAN architecture.
