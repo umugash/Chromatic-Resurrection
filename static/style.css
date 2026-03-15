@@ -1,0 +1,221 @@
+body {
+    margin: 0;
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(135deg, #04471a, #0f0436);
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+header {
+    background-color: #333;
+    padding: 20px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-shadow: 3px 3px #000;
+}
+
+/* Upload Section */
+.upload-section {
+    margin: 40px auto;
+    max-width: 600px;
+    padding: 20px;
+    background: rgba(8, 7, 7, 0.6);
+    border: 4px solid #fff;
+    border-radius: 12px;
+    box-shadow: 5px 5px 0px #000;
+}
+
+.dropzone {
+    border: 2px dashed #fff;
+    padding: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dropzone.hover {
+    background-color: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+}
+
+.btn {
+    margin-top: 20px;
+    background-color: #00ff15;
+    border-radius: 30px;
+    border:5px solid rgb(238, 255, 0);
+    color: #000;
+    padding: 10px 20px;
+    
+    cursor: pointer;
+    font-weight: bolder;
+    transition: all 0.3s ease;
+    box-shadow: 3px 3px 0px #000;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+/* Preview Section */
+.preview-section {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.image-container {
+    background: rgba(0,0,0,0.5);
+    border: 3px solid #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #000;
+}
+
+.image-container img {
+    width: 256px;
+    height: 256px;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+/* Moving Character */
+#character {
+    height: 140px;
+    width: 140px;
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    cursor: pointer;
+    z-index: 5;
+}
+
+/* Popup Panel - Minecraft Paper Style */
+.paper-style {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #fdf6e3;
+    color: #000;
+    border: 5px solid #000;
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 10;
+    width: 400px;
+    box-shadow: 5px 5px 0 #000;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.paper-style.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.paper-style button {
+    cursor: pointer;
+    padding: 5px;
+    border: 2px solid #000;
+    background-color: #cfcfcf;
+    font-family: 'Press Start 2P', cursive;
+    margin: 5px;
+    transition: 0.2s;
+}
+
+.paper-style button:hover {
+    background-color: #ffeb3b;
+}
+
+/* Footer */
+footer {
+    background-color: #222;
+    padding: 15px 0;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+    z-index: 2;
+    position: relative;
+}
+
+/* Stars Canvas */
+canvas#stars {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+/* Left and Right Boards */
+.left-board, .right-board {
+    position: fixed;
+    top: 100px;
+    width: 200px;
+    height: 400px;
+    background: #3bad1f;
+    border: 4px solid #654321;
+    box-shadow: inset -5px -5px 0 #A0522D, inset 5px 5px 0 #5C3317;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    padding-left: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+
+/* Positioning */
+.left-board { left: 10px; }
+.right-board { right: 10px; }
+
+/* Names Styling */
+.names p {
+    margin: 5px 0;
+    font-size: 12px;
+    text-align: center;
+    color: #FFF8DC;
+    text-shadow: 1px 1px #000;
+}
+.algori{
+    margin: 5px 0;
+    font-size: 12px;
+    text-align: center;
+    color: #FFF8DC;
+    text-shadow: 1px 1px #000;
+
+}
+
+/* Shaking Animation */
+@keyframes shake {
+    0% { transform: translate(0px, 0px) rotate(0deg); }
+    10% { transform: translate(-3px, 0px) rotate(-5deg); }
+    20% { transform: translate(3px, 0px) rotate(5deg); }
+    30% { transform: translate(-3px, 0px) rotate(-5deg); }
+    40% { transform: translate(3px, 0px) rotate(5deg); }
+    50% { transform: translate(-2px, 0px) rotate(-3deg); }
+    60% { transform: translate(2px, 0px) rotate(3deg); }
+    70% { transform: translate(-1px, 0px) rotate(-2deg); }
+    80% { transform: translate(1px, 0px) rotate(2deg); }
+    90% { transform: translate(0px, 0px) rotate(0deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+.shake {
+    animation: shake 0.6s ease-in-out;
+}

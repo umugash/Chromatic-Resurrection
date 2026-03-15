@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🌸 Flower Colorizer 🌸</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Left Zombie Board -->
+    <div class="left-board" id="zombie-board">
+        <p class="algori">Our Flower Colorizer AI uses a Generative Adversarial Network (GAN) combining a Generator and Discriminator to colorize grayscale flower images realistically. The Generator predicts color details using CNN and U-Net architecture, while the Discriminator ensures the output looks natural. We also use L1 Loss for accuracy and LPIPS (Perceptual Loss) to make colors visually appealing. This combination helps the model create vibrant, life-like flower images with high quality and realism</p>
+    </div>
+
+    <!-- Right Names Board -->
+    <div class="right-board" id="names-board">
+        <div class="names">
+            <h3>Algorithms PLANTED 🌱</h3>
+            <h2>_________</h2>
+            <p>1.Convolutional Neural Networks (CNNs)</p>
+
+            <p>2.Encoder–Decoder Architecture (U-Net Style)</p>
+            <p>3.Generative Adversarial Network (GAN)</p>
+            <p>4.Perceptual Loss (VGG16 / LPIPS)</p>
+        </div>
+    </div>
+
+    <header>
+        <h1>🌸 Flower Colorizer 🌸</h1>
+    </header>
+
+    <main>
+        <section class="upload-section">
+            <h2>Upload Your Grayscale Flower</h2>
+            <form method="post" enctype="multipart/form-data" id="upload-form">
+                <div class="dropzone" id="dropzone">
+                    <p>Drag & Drop Image Here<br>or Click to Upload</p>
+                    <input type="file" name="file" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn">Colorize Now</button>
+            </form>
+        </section>
+
+        {% if input_image %}
+        <section class="preview-section">
+            <div class="image-container">
+                <h3>Input (Grayscale)</h3>
+                <img src="{{ input_image }}" alt="Input Image">
+            </div>
+            <div class="image-container">
+                <h3>Output (Colorized)</h3>
+                <img src="{{ output_image }}" alt="Output Image">
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Moving Character -->
+        <img src="{{ url_for('static', filename='walking-plants-vs-zombies.gif') }}" id="character" alt="Character">
+
+        <!-- Popup Panel -->
+        <div id="popup-panel" class="paper-style">
+            <h2>AI & Algorithms</h2>
+            <div class="algo-buttons">
+                <button data-info="Generator">CNNs & GAN</button>
+                <button data-info="Discriminator">Optimizer & Training</button>
+                <button data-info="LPIPS">Perceptual Loss </button>
+                <button data-info="L1">Encoder–Decoder Architecture</button>
+            </div>
+            <button id="close-popup">Close</button>
+        </div>
+
+        <!-- Algorithm Info Popup -->
+        <div id="algo-info-panel" class="paper-style">
+            <h3 id="algo-title">Algorithm Info</h3>
+            <p id="algo-description">Click a button above to see details.</p>
+            <button id="close-algo-info">Close</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>🌻 PLANTED BY ANANTH | ROHITH | MUGASH 🌱</p>
+    </footer>
+
+    <script>
+        // ---------------- Drag & Drop ----------------
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = dropzone.querySelector('input[type=file]');
+        dropzone.addEventListener('click', ()=>fileInput.click());
+        dropzone.addEventListener('dragover', (e)=>{ e.preventDefault(); dropzone.classList.add('hover'); });
+        dropzone.addEventListener('dragleave', ()=>dropzone.classList.remove('hover'));
+        dropzone.addEventListener('drop', (e)=>{
+            e.preventDefault();
+            dropzone.classList.remove('hover');
+            fileInput.files = e.dataTransfer.files;
+        });
+
+        // ---------------- Moving Character ----------------
+        const char = document.getElementById('character');
+        let charX = 0;
+        let direction = 1;
+        function moveChar(){
+            charX += 1.5 * direction;
+            if(charX > window.innerWidth - 140 || charX < 0) direction *= -1;
+            char.style.left = charX + 'px';
+            requestAnimationFrame(moveChar);
+        }
+        moveChar();
+
+        // ---------------- Character Click Explosion ----------------
+        const popup = document.getElementById('popup-panel');
+        char.addEventListener('click', ()=>{
+            for(let i=0;i<20;i++){
+                let p = document.createElement('div');
+                p.style.position='fixed';
+                p.style.width='8px';
+                p.style.height='8px';
+                p.style.borderRadius='50%';
+                p.style.left = (charX + 70) + 'px';
+                p.style.top = char.offsetTop + 'px';
+                p.style.background = (i%2===0)?'orange':'#fffacd';
+                document.body.appendChild(p);
+                let dx = (Math.random()-0.5)*200;
+                let dy = (Math.random()-0.5)*200;
+                let interval = setInterval(()=>{
+                    let left = parseFloat(p.style.left);
+                    let top = parseFloat(p.style.top);
+                    p.style.left = left + dx*0.02 + 'px';
+                    p.style.top = top + dy*0.02 + 'px';
+                },16);
+                setTimeout(()=>{clearInterval(interval); p.remove();}, 600);
+            }
+            popup.classList.add('show');
+        });
+
+        document.getElementById('close-popup').addEventListener('click', ()=>popup.classList.remove('show'));
+
+        // ---------------- Algorithm Info Popup ----------------
+        const algoInfoPanel = document.getElementById('algo-info-panel');
+        const algoTitle = document.getElementById('algo-title');
+        const algoDescription = document.getElementById('algo-description');
+        document.querySelectorAll('#popup-panel .algo-buttons button').forEach(btn=>{
+            btn.addEventListener('click', ()=>{
+                const algo = btn.getAttribute('data-info');
+                algoTitle.innerText = algo;
+                if(algo === "Generator") algoDescription.innerText = "Convolutional Neural Networks (CNNs)- Used to extract important features from grayscale images like edges, shapes, and textures .CNN helps the model understand what objects or patterns exist in the image.These learned features guide how color should be added realistically Generative Adversarial Network (GAN):The model includes two neural networks:Generator: Creates colorized images from grayscale input.Discriminator: Judges whether an image looks “real” or “fake.”";
+                else if(algo === "Discriminator") algoDescription.innerText = "Optimizer: Adam (learning rate = 2e-4).Epochs: 20–25 for best results.Batch Size: 8–16 (depending on GPU).Mixed Precision Training: Speeds up processing using half-precision floats.PSNR (Peak Signal-to-Noise Ratio): Measures color accuracy (higher = better).LPIPS: Measures perceptual quality (lower = better).PSNR: ~16.9 LPIPS: ~0.27";
+                else if(algo === "LPIPS") algoDescription.innerText = "Instead of just comparing pixels, this loss uses a pretrained VGG16 network to compare visual features that humans notice.It ensures the colorized image looks visually realistic and pleasing to the eye.LPIPS (Learned Perceptual Image Patch Similarity) is used for this.We combine multiple losses to train the model effectively:L1 Loss: Ensures pixel-level accuracy.Adversarial Loss: Improves realism using GAN feedback.Perceptual Loss: Matches human visual perception.Total Loss Formula:Total Loss = λ₁ * L1 + λ₂ * GAN Loss + λ₃ * Perceptual Loss";
+                else if(algo === "L1") algoDescription.innerText = "The model has two parts:Encoder: Compresses and learns meaningful patterns from the grayscale input.Decoder: Expands and reconstructs the missing color information.U-Net-style skip connections help preserve image details like flower edges and patterns.";
+                algoInfoPanel.classList.add('show');
+            });
+        });
+        document.getElementById('close-algo-info').addEventListener('click', ()=>algoInfoPanel.classList.remove('show'));
+
+        // ---------------- Shake Boards ----------------
+        const zombieBoard = document.getElementById('zombie-board');
+        const namesBoard = document.getElementById('names-board');
+        function shakeElement(el){
+            el.classList.add('shake');
+            setTimeout(()=> el.classList.remove('shake'), 600);
+        }
+        zombieBoard.addEventListener('click', ()=>shakeElement(zombieBoard));
+        namesBoard.addEventListener('click', ()=>shakeElement(namesBoard));
+
+    </script>
+</body>
+</html>
