@@ -102,14 +102,13 @@ Kaggle flower image colorization datasets
 
 Approx training size:
 
-Large-scale image dataset (~GB-level training data)
+Large-scale image dataset (18~GB-level training data)
 
 Possible datasets:
 
 - Flower image colorization
 - Image restoration datasets
 
-*(Update exact dataset later if confirmed)*
 
 ---
 
@@ -127,25 +126,9 @@ Project evaluated using:
 
 # 🖼 Results
 
-## Input Image
+## UI Interface
 
 <img src="images/input.png"/>
-
----
-
-## Colorized Output
-
-<img src="images/output.png"/>
-
----
-
-## Comparison View
-
-<img src="images/comparison.png"/>
-
----
-
-*(Create `/images` folder and upload screenshots)*
 
 ---
 
